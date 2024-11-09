@@ -14,12 +14,18 @@ function Dashboard() {
    };
    const cancelSignOut = () => setShowSignOutModal(false);
 
+   const handleFileUpload = (event) => {
+      const file = event.target.files[0];
+      console.log("File uploaded:", file);
+      // Handle the uploaded file (e.g., save it to the server or process it)
+   };
+
    return (
       <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center">
          <nav className="w-full flex items-center justify-between bg-transparent p-4 shadow-md">
-            <h1 className="text-xl font-bold">MyInterviewAI</h1>
+            <Link to="/" className="text-xl font-bold hover:text-gray-300">MyInterviewAI</Link> {/* Link to Home or Dashboard */}
             <div className="flex space-x-4 text-lg">
-               <Link to="#profile" className="hover:text-gray-300">My Profile</Link>
+               <Link to="/profile" className="hover:text-gray-300">My Profile</Link>
                <Link to="#avg-score" className="hover:text-gray-300">Average Score</Link>
                <button onClick={handleSignOut} className="hover:text-gray-300">Sign Out</button>
             </div>
@@ -30,11 +36,17 @@ function Dashboard() {
                <h2 className="text-3xl font-bold mb-2 text-center">Welcome back, David</h2>
                <p className="text-lg mb-6 text-center">Start preparing for your interview</p>
                
-               {/* Update Resume Button */}
-               <div className="text-center mb-6">
-                  <Link to="#profile" className="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow-md text-lg hover:bg-blue-600 focus:outline-none">
+               {/* Update Resume and Upload File Buttons */}
+               <div className="text-center mb-6 space-y-4">
+                  <Link to="/profile" className="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow-md text-lg hover:bg-blue-600 focus:outline-none">
                      Update Your Resume
                   </Link>
+                  <div>
+                     <label className="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow-md text-lg hover:bg-blue-600 cursor-pointer">
+                        Upload from Device
+                        <input type="file" className="hidden" onChange={handleFileUpload} />
+                     </label>
+                  </div>
                </div>
                
                {/* Form Section */}

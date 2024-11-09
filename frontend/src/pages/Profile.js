@@ -1,91 +1,104 @@
-// src/pages/Profile.js
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { PencilIcon } from '@heroicons/react/outline';
 
 function Profile() {
-   const [userData, setUserData] = useState({
-      name: 'David Reddy',
+   const [profile, setProfile] = useState({
+      firstName: 'David',
+      lastName: 'Reddy',
       email: 'davidreddy@gmail.com',
-      jobTitle: '',
-      location: '',
-      about: '',
+      jobTitle: 'Software Engineer',
+      location: 'San Francisco, CA',
+      pronouns: 'He/Him',
+      aboutMe: 'Experienced software engineer with a passion for building impactful applications.',
    });
 
-   const handleChange = (e) => {
-      const { name, value } = e.target;
-      setUserData({ ...userData, [name]: value });
+   const [isEditing, setIsEditing] = useState({
+      firstName: false,
+      lastName: false,
+      email: false,
+      jobTitle: false,
+      location: false,
+      pronouns: false,
+      aboutMe: false,
+   });
+
+   const navigate = useNavigate();
+
+   const handleEditToggle = (field) => {
+      setIsEditing((prev) => ({
+         ...prev,
+         [field]: !prev[field],
+      }));
    };
 
-   const handleSave = () => {
-      // Handle save functionality here, such as sending to a server
-      alert('Profile saved successfully!');
+   const handleChange = (e, field) => {
+      setProfile({
+         ...profile,
+         [field]: e.target.value,
+      });
+   };
+
+   const handleSaveChanges = () => {
+      // Handle saving changes (e.g., API call or localStorage update)
+      console.log("Profile updated:", profile);
+      setIsEditing({
+         firstName: false,
+         lastName: false,
+         email: false,
+         jobTitle: false,
+         location: false,
+         pronouns: false,
+         aboutMe: false,
+      });
+   };
+
+   const handleSignOut = () => {
+      navigate('/');
    };
 
    return (
-      <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center p-6">
-         <h1 className="text-3xl font-bold mb-8">My Profile</h1>
-         
-         <div className="bg-white text-gray-800 p-8 rounded-lg shadow-lg w-full max-w-lg">
-            <label className="block mb-4">
-               <span className="text-lg font-semibold">Name:</span>
-               <input
-                  type="text"
-                  name="name"
-                  value={userData.name}
-                  onChange={handleChange}
-                  className="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:border-blue-500"
-               />
-            </label>
-            
-            <label className="block mb-4">
-               <span className="text-lg font-semibold">Email:</span>
-               <input
-                  type="email"
-                  name="email"
-                  value={userData.email}
-                  onChange={handleChange}
-                  className="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:border-blue-500"
-               />
-            </label>
+      <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center">
+         {/* Navbar */}
+         <nav className="w-full flex items-center justify-between bg-transparent p-4 shadow-md">
+            <h1 className="text-xl font-bold">MyInterviewAI</h1>
+            <div className="flex space-x-4 text-lg">
+               <Link to="/profile" className="hover:text-gray-300">My Profile</Link>
+               <Link to="/dashboard" className="hover:text-gray-300">Dashboard</Link>
+               <button onClick={handleSignOut} className="hover:text-gray-300">Sign Out</button>
+            </div>
+         </nav>
 
-            <label className="block mb-4">
-               <span className="text-lg font-semibold">Job Title:</span>
-               <input
-                  type="text"
-                  name="jobTitle"
-                  value={userData.jobTitle}
-                  onChange={handleChange}
-                  className="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:border-blue-500"
-               />
-            </label>
-
-            <label className="block mb-4">
-               <span className="text-lg font-semibold">Location:</span>
-               <input
-                  type="text"
-                  name="location"
-                  value={userData.location}
-                  onChange={handleChange}
-                  className="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:border-blue-500"
-               />
-            </label>
-
-            <label className="block mb-4">
-               <span className="text-lg font-semibold">About Me:</span>
-               <textarea
-                  name="about"
-                  value={userData.about}
-                  onChange={handleChange}
-                  rows="4"
-                  className="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:border-blue-500"
-                  placeholder="Tell us about yourself..."
-               ></textarea>
-            </label>
-
+         {/* Profile Form */}
+         <div className="w-full max-w-lg mt-8 bg-blue-600 bg-opacity-20 p-8 rounded-2xl border border-blue-300 border-opacity-40 shadow-lg">
+            <h2 className="text-3xl font-bold text-center mb-6">My Profile</h2>
+            {Object.keys(profile).map((field) => (
+               <div className="mb-6" key={field}>
+                  <label className="block text-lg font-semibold mb-1 capitalize">{field.replace(/([A-Z])/g, ' $1')}:</label>
+                  <div className="flex items-center bg-transparent border border-blue-400 rounded-lg text-white placeholder-gray-300">
+                     {isEditing[field] ? (
+                        <input
+                           type="text"
+                           value={profile[field]}
+                           onChange={(e) => handleChange(e, field)}
+                           className="w-full p-3 bg-transparent focus:outline-none text-white text-base max-w-sm"
+                           autoFocus
+                        />
+                     ) : (
+                        <span className="w-full p-3 text-base max-w-sm">{profile[field]}</span>
+                     )}
+                     <PencilIcon
+                        className="w-5 h-5 ml-3 cursor-pointer text-gray-400 hover:text-gray-200"
+                        onClick={() => handleEditToggle(field)}
+                     />
+                  </div>
+               </div>
+            ))}
             <button
-               onClick={handleSave}
-               className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none"
+               onClick={handleSaveChanges}
+               className="w-full px-4 py-2 mt-4 bg-blue-500 text-white rounded-lg font-semibold shadow-md hover:bg-blue-600"
             >
-               Save Profile
+               Save Changes
             </button>
          </div>
       </div>
