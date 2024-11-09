@@ -1,15 +1,19 @@
 // src/pages/Login.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+   const navigate = useNavigate();
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
 
    const handleLogin = (e) => {
       e.preventDefault();
-      if (email === 'user@example.com' && password === 'password123') {
-         alert('Login successful!');
+      // Updated email and password for the demo
+      if (email === 'davidreddy@gmail.com' && password === '12345678') {
+         // Navigate to the dashboard on successful login
+         navigate('/dashboard');
       } else {
          setError('Invalid email or password');
       }
