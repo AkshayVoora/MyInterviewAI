@@ -32,10 +32,9 @@ function Dashboard() {
    return (
       <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center">
          <nav className="w-full flex items-center justify-between bg-transparent p-4 shadow-md">
-            <Link to="/" className="text-xl font-bold hover:text-gray-300">MyInterviewAI</Link>
+            <Link to="/dashboard" className="text-xl font-bold hover:text-gray-300">MyInterviewAI</Link>
             <div className="flex space-x-4 text-lg">
                <Link to="/profile" className="hover:text-gray-300">My Profile</Link>
-               <Link to="#avg-score" className="hover:text-gray-300">Average Score</Link>
                <button onClick={handleSignOut} className="hover:text-gray-300">Sign Out</button>
             </div>
          </nav>
@@ -46,9 +45,6 @@ function Dashboard() {
                <p className="text-lg mb-6 text-center">Start preparing for your interview</p>
                
                <div className="text-center mb-6 space-y-4">
-                  <Link to="/profile" className="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow-md text-lg hover:bg-blue-600 focus:outline-none">
-                     Update Your Profile
-                  </Link>
                   <div>
                      <label className="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow-md text-lg hover:bg-blue-600 cursor-pointer">
                         Upload Your Resume
@@ -75,24 +71,26 @@ function Dashboard() {
 
                   {/* Difficulty Slider */}
                   <div className="mt-6">
-                     <label className="block text-lg font-semibold mb-2">Difficulty Level</label>
-                     <div className="relative flex items-center">
-                        <input
-                           type="range"
-                           min="1"
-                           max="10"
-                           value={difficulty}
-                           onChange={(e) => setDifficulty(e.target.value)}
-                           className="w-full h-2 rounded-full appearance-none bg-gradient-to-r from-green-500 via-yellow-500 to-red-500"
-                        />
-                        <span
-                           className="absolute left-0 transform -translate-x-1/2 -translate-y-full text-sm text-gray-800"
-                           style={{ left: `${(difficulty - 1) * 10}%` }}
-                        >
-                           {difficulty}
-                        </span>
-                     </div>
-                  </div>
+   <label className="block text-lg font-semibold mb-2">Difficulty Level</label>
+   <div className="relative flex items-center">
+      <input
+         type="range"
+         min="1"
+         max="10"
+         value={difficulty}
+         onChange={(e) => setDifficulty(e.target.value)}
+         className="w-full h-2 rounded-full appearance-none bg-gradient-to-r from-green-500 via-yellow-500 to-red-500"
+      />
+      {/* Adjust the position of the difficulty number */}
+      <span
+         className="absolute -bottom-6 transform -translate-x-1/2 text-sm text-gray-800"
+         style={{ left: `${(difficulty - 1) * 10}%` }}
+      >
+         {difficulty}
+      </span>
+   </div>
+</div>
+
 
                   <button 
                      type="button"

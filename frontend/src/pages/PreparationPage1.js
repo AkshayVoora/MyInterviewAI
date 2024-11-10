@@ -21,9 +21,9 @@ function PreparationPage1({ score, setScore }) {
    return (
       <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center">
          <nav className="w-full flex items-center justify-between bg-transparent p-4 shadow-md">
-            <h1 className="text-xl font-bold">MyInterviewAI</h1>
+            <Link to="/dashboard" className="text-xl font-bold">MyInterviewAI</Link>
             <div className="flex space-x-4 text-lg">
-               <Link to="/dashboard" className="hover:text-gray-300">Dashboard</Link>
+               <Link to="/profile" className="hover:text-gray-300">My Profile</Link>
                <Link to="/" className="hover:text-gray-300">Sign Out</Link>
             </div>
          </nav>
@@ -31,13 +31,7 @@ function PreparationPage1({ score, setScore }) {
          <div className="flex flex-col items-center w-full p-6">
             <h1 className="text-3xl font-bold mb-8">Software Engineer Intern Practice Questions</h1>
             {questions.map((q, index) => (
-               <QuestionCard
-                  key={index}
-                  question={q.question}
-                  options={q.options}
-                  correctAnswer={q.correctAnswer}
-                  onAnswer={handleAnswer} // Pass handleAnswer to track score
-               />
+               <QuestionCard key={index} question={q.question} options={q.options} correctAnswer={q.correctAnswer} onAnswer={handleAnswer} />
             ))}
             <div className="flex justify-between w-full max-w-lg mt-8">
                <button onClick={() => navigate('/preparation')} className="flex items-center text-white text-lg">
