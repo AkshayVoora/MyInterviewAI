@@ -4,8 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
    const [showSignOutModal, setShowSignOutModal] = useState(false);
-   const [uploadedFileName, setUploadedFileName] = useState(''); // State to store file name
-   const [uploadMessage, setUploadMessage] = useState(''); // State for upload success message
+   const [uploadedFileName, setUploadedFileName] = useState('');
+   const [uploadMessage, setUploadMessage] = useState('');
+   const [difficulty, setDifficulty] = useState(5); // State for difficulty slider
    const navigate = useNavigate();
 
    const handleSignOut = () => setShowSignOutModal(true);
@@ -18,8 +19,8 @@ function Dashboard() {
    const handleFileUpload = (event) => {
       const file = event.target.files[0];
       if (file) {
-         setUploadedFileName(file.name); // Set file name to state
-         setUploadMessage('File uploaded successfully!'); // Set success message
+         setUploadedFileName(file.name);
+         setUploadMessage('File uploaded successfully!');
          console.log("File uploaded:", file.name);
       }
    };
@@ -57,7 +58,7 @@ function Dashboard() {
                         <p className="text-sm text-gray-300 mt-2">Uploaded: {uploadedFileName}</p>
                      )}
                      {uploadMessage && (
-                        <p className="text-sm text-green-400 mt-1">{uploadMessage}</p> // Success message display
+                        <p className="text-sm text-green-400 mt-1">{uploadMessage}</p>
                      )}
                   </div>
                </div>
@@ -71,6 +72,28 @@ function Dashboard() {
                      <label className="block text-lg font-semibold mb-2">Job Description</label>
                      <textarea className="w-full p-3 bg-transparent border border-blue-400 rounded-lg text-white placeholder-gray-300 text-base focus:outline-none focus:ring focus:ring-blue-100" rows="3" placeholder="Enter the job description here..."></textarea>
                   </div>
+
+                  {/* Difficulty Slider */}
+                  <div className="mt-6">
+                     <label className="block text-lg font-semibold mb-2">Difficulty Level</label>
+                     <div className="relative flex items-center">
+                        <input
+                           type="range"
+                           min="1"
+                           max="10"
+                           value={difficulty}
+                           onChange={(e) => setDifficulty(e.target.value)}
+                           className="w-full h-2 rounded-full appearance-none bg-gradient-to-r from-green-500 via-yellow-500 to-red-500"
+                        />
+                        <span
+                           className="absolute left-0 transform -translate-x-1/2 -translate-y-full text-sm text-gray-800"
+                           style={{ left: `${(difficulty - 1) * 10}%` }}
+                        >
+                           {difficulty}
+                        </span>
+                     </div>
+                  </div>
+
                   <button 
                      type="button"
                      onClick={startPreparation}

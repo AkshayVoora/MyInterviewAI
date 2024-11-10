@@ -33,7 +33,7 @@ function PreparationPage() {
          </nav>
 
          <div className="flex flex-col items-center w-full p-6">
-            <h1 className="text-3xl font-bold mb-8">Preparation Page 1</h1>
+            <h1 className="text-3xl font-bold mb-8">Software Engineer Intern Practice Questions</h1>
             {questions.map((q, index) => (
                <QuestionCard
                   key={index}
