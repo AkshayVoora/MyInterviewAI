@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
    const [showSignOutModal, setShowSignOutModal] = useState(false);
-   const [selectedType, setSelectedType] = useState(null); // State to manage selected button
+   const [uploadedFileName, setUploadedFileName] = useState(''); // State to store file name
+   const [uploadMessage, setUploadMessage] = useState(''); // State for upload success message
    const navigate = useNavigate();
 
    const handleSignOut = () => setShowSignOutModal(true);
@@ -16,14 +17,21 @@ function Dashboard() {
 
    const handleFileUpload = (event) => {
       const file = event.target.files[0];
-      console.log("File uploaded:", file);
-      // Handle the uploaded file (e.g., save it to the server or process it)
+      if (file) {
+         setUploadedFileName(file.name); // Set file name to state
+         setUploadMessage('File uploaded successfully!'); // Set success message
+         console.log("File uploaded:", file.name);
+      }
+   };
+
+   const startPreparation = () => {
+      navigate('/preparation');
    };
 
    return (
       <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center">
          <nav className="w-full flex items-center justify-between bg-transparent p-4 shadow-md">
-            <Link to="/" className="text-xl font-bold hover:text-gray-300">MyInterviewAI</Link> {/* Link to Home or Dashboard */}
+            <Link to="/" className="text-xl font-bold hover:text-gray-300">MyInterviewAI</Link>
             <div className="flex space-x-4 text-lg">
                <Link to="/profile" className="hover:text-gray-300">My Profile</Link>
                <Link to="#avg-score" className="hover:text-gray-300">Average Score</Link>
@@ -36,20 +44,24 @@ function Dashboard() {
                <h2 className="text-3xl font-bold mb-2 text-center">Welcome back, David</h2>
                <p className="text-lg mb-6 text-center">Start preparing for your interview</p>
                
-               {/* Update Resume and Upload File Buttons */}
                <div className="text-center mb-6 space-y-4">
                   <Link to="/profile" className="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow-md text-lg hover:bg-blue-600 focus:outline-none">
-                     Update Your Resume
+                     Update Your Profile
                   </Link>
                   <div>
                      <label className="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold shadow-md text-lg hover:bg-blue-600 cursor-pointer">
-                        Upload from Device
+                        Upload Your Resume
                         <input type="file" className="hidden" onChange={handleFileUpload} />
                      </label>
+                     {uploadedFileName && (
+                        <p className="text-sm text-gray-300 mt-2">Uploaded: {uploadedFileName}</p>
+                     )}
+                     {uploadMessage && (
+                        <p className="text-sm text-green-400 mt-1">{uploadMessage}</p> // Success message display
+                     )}
                   </div>
                </div>
-               
-               {/* Form Section */}
+
                <div className="space-y-6">
                   <div>
                      <label className="block text-lg font-semibold mb-2">Job Role</label>
@@ -59,23 +71,9 @@ function Dashboard() {
                      <label className="block text-lg font-semibold mb-2">Job Description</label>
                      <textarea className="w-full p-3 bg-transparent border border-blue-400 rounded-lg text-white placeholder-gray-300 text-base focus:outline-none focus:ring focus:ring-blue-100" rows="3" placeholder="Enter the job description here..."></textarea>
                   </div>
-                  <div>
-                     <label className="block text-lg font-semibold mb-2">Select Question Type:</label>
-                     <div className="flex space-x-4">
-                        <button 
-                           onClick={() => setSelectedType('Subject-Specific')}
-                           className={`px-4 py-2 rounded-lg shadow-md text-lg font-semibold w-full ${selectedType === 'Subject-Specific' ? 'bg-blue-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600'}`}>
-                           Subject-Specific
-                        </button>
-                        <button 
-                           onClick={() => setSelectedType('Behavioral')}
-                           className={`px-4 py-2 rounded-lg shadow-md text-lg font-semibold w-full ${selectedType === 'Behavioral' ? 'bg-blue-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600'}`}>
-                           Behavioral
-                        </button>
-                     </div>
-                  </div>
                   <button 
                      type="button"
+                     onClick={startPreparation}
                      className="w-full px-6 py-3 mt-4 rounded-lg shadow-md text-lg font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none"
                   >
                      Start Preparation
@@ -84,7 +82,6 @@ function Dashboard() {
             </div>
          </div>
 
-         {/* Sign Out Confirmation Modal */}
          {showSignOutModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                <div className="bg-gray-200 p-6 rounded-lg shadow-lg text-gray-800 w-72">
