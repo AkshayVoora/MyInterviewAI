@@ -7,7 +7,7 @@ function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white">
          <h1 className="text-5xl font-bold mb-6 animate-fadeIn">Welcome to MyInterviewAI</h1>
          <p className="text-lg mb-8 animate-slideInUp">
-            Prepare for your interviews with AI-powered feedback and practice questions.
+         Prepare for your interviews with AI-powered practice quizzes.
          </p>
          <div className="flex space-x-4 animate-fadeIn mt-4">
             <Link to="/login">
