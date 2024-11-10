@@ -1,26 +1,22 @@
 // src/pages/PreparationPage1.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import QuestionCard from '../components/QuestionCard';
 
-function PreparationPage1() {
+function PreparationPage1({ score, setScore }) {
+   const navigate = useNavigate();
+
    const questions = [
-      {
-         question: 'What is the best sorting algorithm for small datasets?',
-         options: ['Bubble Sort', 'Merge Sort', 'Quick Sort', 'Selection Sort'],
-         correctAnswer: 'Quick Sort',
-      },
-      {
-         question: 'Which of the following is used for asynchronous programming in JavaScript?',
-         options: ['Promise', 'Array', 'String', 'Object'],
-         correctAnswer: 'Promise',
-      },
-      {
-         question: 'What does CSS stand for?',
-         options: ['Cascading Style Sheets', 'Computer Style Sheets', 'Colorful Style Sheets', 'Creative Style Sheets'],
-         correctAnswer: 'Cascading Style Sheets',
-      },
+      { question: 'What is the best sorting algorithm for small datasets?', options: ['Bubble Sort', 'Merge Sort', 'Quick Sort', 'Selection Sort'], correctAnswer: 'Quick Sort' },
+      { question: 'Which of the following is used for asynchronous programming in JavaScript?', options: ['Promise', 'Array', 'String', 'Object'], correctAnswer: 'Promise' },
+      { question: 'What does CSS stand for?', options: ['Cascading Style Sheets', 'Computer Style Sheets', 'Colorful Style Sheets', 'Creative Style Sheets'], correctAnswer: 'Cascading Style Sheets' },
    ];
+
+   const handleAnswer = (isCorrect) => {
+      if (isCorrect) {
+         setScore((prevScore) => prevScore + 1);
+      }
+   };
 
    return (
       <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center">
@@ -40,9 +36,17 @@ function PreparationPage1() {
                   question={q.question}
                   options={q.options}
                   correctAnswer={q.correctAnswer}
+                  onAnswer={handleAnswer} // Pass handleAnswer to track score
                />
             ))}
-            <Link to="/preparation2" className="mt-8 px-4 py-2 bg-blue-500 rounded-lg text-white">Next Page</Link>
+            <div className="flex justify-between w-full max-w-lg mt-8">
+               <button onClick={() => navigate('/preparation')} className="flex items-center text-white text-lg">
+                  <span className="mr-1">{'←'}</span> Back
+               </button>
+               <button onClick={() => navigate('/preparation2')} className="flex items-center text-white text-lg">
+                  Next <span className="ml-1">{'→'}</span>
+               </button>
+            </div>
          </div>
       </div>
    );

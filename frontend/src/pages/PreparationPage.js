@@ -1,9 +1,11 @@
 // src/pages/PreparationPage.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import QuestionCard from '../components/QuestionCard';
 
-function PreparationPage() {
+function PreparationPage({ score, setScore }) {
+   const navigate = useNavigate();
+
    const questions = [
       {
          question: 'What is the time complexity of binary search?',
@@ -20,7 +22,14 @@ function PreparationPage() {
          options: ['12', '10', '8', '6'],
          correctAnswer: '8',
       },
+      // Add additional questions if needed
    ];
+
+   const handleAnswer = (isCorrect) => {
+      if (isCorrect) {
+         setScore((prevScore) => prevScore + 1);
+      }
+   };
 
    return (
       <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex flex-col items-center">
@@ -40,9 +49,17 @@ function PreparationPage() {
                   question={q.question}
                   options={q.options}
                   correctAnswer={q.correctAnswer}
+                  onAnswer={handleAnswer}
                />
             ))}
-            <Link to="/preparation1" className="mt-8 px-4 py-2 bg-blue-500 rounded-lg text-white">Next Page</Link>
+            <div className="flex justify-between w-full max-w-lg mt-8">
+               <button onClick={() => navigate('/dashboard')} className="flex items-center text-white text-lg">
+                  <span className="mr-1">{'←'}</span> Back
+               </button>
+               <button onClick={() => navigate('/preparation1')} className="flex items-center text-white text-lg">
+                  Next <span className="ml-1">{'→'}</span>
+               </button>
+            </div>
          </div>
       </div>
    );
